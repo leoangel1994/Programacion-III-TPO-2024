@@ -4,6 +4,7 @@ import adt.Implementations.GrafoLA;
 import adt.Interfaces.ConjuntoTDA;
 
 public class main {
+    // Clase interna para almacenar los resultados de la lectura de datos
     static class Resultado {
         int cl; // Cantidad de clientes
         int cd; // Cantidad de centros de distribución
@@ -11,6 +12,7 @@ public class main {
         int[] CDP; // Costos de distribución por centro
         int[] CFP; // Costos fijos por centro
 
+        // Constructor para inicializar los valores
         Resultado(int cl, int cd, int[] vpa, int[] CDP, int[] CFP) {
             this.cl = cl;
             this.cd = cd;
@@ -114,24 +116,6 @@ public class main {
         return grafoD;
     }
 
-    // Método para imprimir el grafo
-    static void imprimir(GrafoLA grafo) {
-        ConjuntoTDA vertices = grafo.vertices();
-        while (!vertices.conjuntoVacio()) {
-            int vo = vertices.elegir();
-            vertices.sacar(vo);
-            ConjuntoTDA otrosVertices = grafo.vertices();
-            while (!otrosVertices.conjuntoVacio()) {
-                int vd = otrosVertices.elegir();
-                otrosVertices.sacar(vd);
-                if (grafo.existeArista(vo, vd)) {
-                    int peso = grafo.pesoArista(vo, vd);
-                    System.out.println("Origen: " + vo + ", Destino: " + vd + ", Peso: " + peso);
-                }
-            }
-        }
-    }
-
     // Implementación del algoritmo de Dijkstra para encontrar las distancias más cortas
     public static int[] dijkstra(GrafoLA grafo, int origen) {
         ConjuntoTDA vertices = grafo.vertices();
@@ -212,7 +196,7 @@ public class main {
         System.out.println("Centros que deben construirse:");
         for (int i = 0; i < estado.length; i++) {
             if (estado[i] == 1) {
-            System.out.println("Centro " + (50+i));
+                System.out.println("Centro " + (50 + i));
             }
         }
         System.out.println();
@@ -240,12 +224,12 @@ public class main {
             int centroAsignado = -1;
             int distanciaMinima = Integer.MAX_VALUE;
             for (int centro = 0; centro < cd; centro++) {
-            if (estado[centro] == 1 && D[centro][cliente] < distanciaMinima) {
-                distanciaMinima = D[centro][cliente];
-                centroAsignado = centro;
+                if (estado[centro] == 1 && D[centro][cliente] < distanciaMinima) {
+                    distanciaMinima = D[centro][cliente];
+                    centroAsignado = centro;
+                }
             }
-            }
-            System.out.printf("Cliente %d -> Centro %d%n", cliente, (centroAsignado+50));
+            System.out.printf("Cliente %d -> Centro %d%n", cliente, (centroAsignado + 50));
         }
     }
 }
