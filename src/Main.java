@@ -5,11 +5,9 @@ import adt.implementation.GrafoLA;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.*;
 
-
-public class Main{
+public class Main {
 
     static GrafoLA leerRutas() {
         GrafoLA grafoD = new GrafoLA();
@@ -49,6 +47,7 @@ public class Main{
         }
         return grafoD;
     }
+
     static void imprimir(GrafoLA grafo) {
         ConjuntoTDA vertices = grafo.vertices();
         while (!vertices.conjuntoVacio()) {
@@ -64,10 +63,8 @@ public class Main{
                 }
             }
         }
-    
     }
-    //-----------------------------------------------------------------------
-    
+
     static class Resultado {
         int cl;
         int cd;
@@ -83,7 +80,7 @@ public class Main{
             this.CFP = CFP;
         }
     }
-    
+
     public static Resultado leerLineas() {
         int cl = 0;
         int cd = 0;
@@ -102,9 +99,8 @@ public class Main{
                 line = line.substring(0, line.indexOf("#")).trim();
             }
             cd = Integer.parseInt(line);
-             // Leer las líneas 3 a 10
-
-             for (int i = 0; i < 8; i++) {
+            // Leer las líneas 3 a 10
+            for (int i = 0; i < 8; i++) {
                 line = reader.readLine();
                 if (line != null) {
                     if (line.contains("#")) {
@@ -138,72 +134,18 @@ public class Main{
         return new Resultado(cl, cd, vpa, CDP, CFP);
     }
 
-        public static Nodo minim(int[] CFP, int[] c) {
-        Nodo n1 = CrearNodoRaiz(c, CFP);
-        vivos.add(n1);
-        int cota = n1.cotaSup;
-        Nodo mejorSolucion = null;
-        while (!vivos.isEmpty()) {
-            Nodo nodo = primero(vivos);
-            vivos.remove(nodo);
-            Nodo[] hijos = generarHijos(nodo, c, CFP);
-            for (Nodo h : hijos) {
-                if (NoPodar(h, cota)) {
-                    if (esSolucion(h)) {
-                        if (esMejorSolucion(h, mejorSolucion)) {
-                            mejorSolucion = h;
-                            cota = actualizar(cota, h);
-                        } else {
-                            vivos.add(h);
-                            cota = actualizar(cota, h);
-                        }
-                    }
-                }
-            }
-        }
-        return mejorSolucion;
-    }
-    
-    /* public static minim (CFP[],int C[]){
-        n1=CrearNodoRaiz(c,CFP);
-        vivos=CrearColaPrioridad();
-        vivos.agregar(n1,n1.cotainf);
-        cota=n1.cotaSup;
-        mejorSolucion=null;
-        while(vivos!= 0){
-            nodo=primero(vivos);
-            vivos.sacar(nodo);
-            hijos=generarHijos(nodo,c,CFP);
-            for(int h =0;h<hijos;h++){
-                if(NoPodar(h,cota)){
-                    if(esSolucion(h)){
-                        if(esMejorSolucion(h,mejorSolucion)){
-                            mejorSolucion=h;
-                            cota=actualizar(cota,h);
-                    }else{
-                        vivo.agregar(h,h.cotainf);
-                        cota=actualizar(cota,h);
-                    }
-                    }
-                }
-            }
-        }
-        return mejorSolucion.estado;
-    } */
-    
-    
     public static void main(String[] args) {
         Resultado resultado = leerLineas();
         GrafoLA grafoD = leerRutas();
         imprimir(grafoD);
-        
+
         int cl = resultado.cl;
         int cd = resultado.cd;
         int[] vpa = resultado.vpa;
         int[] CDP = resultado.CDP;
         int[] CFP = resultado.CFP;
         int[][] D = new int[cd][cl];
-        
+
         System.out.println("Resultado: cl = " + cl + ", cd = " + cd);
         for (int i = 0; i < vpa.length; i++) {
             System.out.println("Posición: " + i + ", Valor: " + vpa[i]);
@@ -214,39 +156,119 @@ public class Main{
         for (int i = 0; i < CFP.length; i++) {
             System.out.println("CFP Posición: " + i + ", Valor: " + CFP[i]);
         }
-        
 
-        
-
-        for(int i=0; i<cl;i++){
-            R=Dijkstra(G,i);
-            for(int j=0; j<cd;j++){
-                D[j][i]=R.pesoArista(i+50,j);
+        // Implementar Dijkstra para encontrar el costo mínimo de transporte
+        for (int i = 0; i < cl; i++) {
+            Map<Integer, Integer> distancias = dijkstra(grafoD, i);
+            for (int j = 0; j < cd; j++) {
+                D[j][i] = distancias.getOrDefault(j + 50, Integer.MAX_VALUE);
             }
-
         }
-        int[] CDconst= new int [100];
-        //CDconst=minim(D,CFP);
 
-        int[][] CICD = new int[cd][cl];
-        for(int i=0;i<cl;i++){
-            int mejorSol=99999;
-            int Pos=-1;
-            for(int j=0;j<cd;j++){
-                if(CDconst[j]==1){
-                    if (D[j][i]<mejorSol){
-                        mejorSol=D[j][i];
-                        CICD[j][i]=1;
-                        if (Pos!=-1)
-                            CICD[Pos][i]=0;
-                        Pos=j;
-                    }else{
-                        CICD[j][i]=0;
-                    }
-                }else{
-                    CICD[j][i]=0;
+        // Optimización para determinar qué centros de distribución construir
+        int[] CDconst = new int[cd];
+        Arrays.fill(CDconst, 0);
+        int[] mejorSolucion = new int[cd];
+        Arrays.fill(mejorSolucion, 0);
+        int[] mejorAsignacion = new int[cl];
+        Arrays.fill(mejorAsignacion, -1);
+        int costoMinimo = Integer.MAX_VALUE;
+
+        backtracking(0, CDconst, mejorSolucion, mejorAsignacion, D, CFP, CDP, vpa, 0, costoMinimo);
+
+        // Mostrar resultados
+        for (int i = 0; i < cd; i++) {
+            if (mejorSolucion[i] == 1) {
+                System.out.println("Centro de distribución " + i + " construido.");
+            }
+        }
+        for (int i = 0; i < cl; i++) {
+            System.out.println("Cliente " + i + " asignado al centro de distribución " + mejorAsignacion[i]);
+        }
+    }
+
+    // Implementación del algoritmo de Dijkstra
+    public static Map<Integer, Integer> dijkstra(GrafoLA grafo, int start) {
+        Map<Integer, Integer> dist = new HashMap<>();
+        PriorityQueue<Ruta> pq = new PriorityQueue<>(Comparator.comparingInt(r -> r.peso));
+        pq.add(new Ruta(start, start, 0));
+        dist.put(start, 0);
+
+        while (!pq.isEmpty()) {
+            Ruta current = pq.poll();
+            int currentNode = current.destino;
+
+            ConjuntoTDA adyacentes = grafo.adyacentes(currentNode);
+            while (!adyacentes.conjuntoVacio()) {
+                int vecino = adyacentes.elegir();
+                adyacentes.sacar(vecino);
+                int newDist = dist.get(currentNode) + grafo.pesoArista(currentNode, vecino);
+                if (newDist < dist.getOrDefault(vecino, Integer.MAX_VALUE)) {
+                    dist.put(vecino, newDist);
+                    pq.add(new Ruta(currentNode, vecino, newDist));
                 }
             }
+        }
+        return dist;
+    }
+
+    // Implementación del algoritmo de backtracking
+    public static void backtracking(int nivel, int[] CDconst, int[] mejorSolucion, int[] mejorAsignacion, int[][] D, int[] CFP, int[] CDP, int[] vpa, int costoActual, int costoMinimo) {
+        if (nivel == CDconst.length) {
+            int costoTotal = calcularCostoTotal(CDconst, D, CFP, CDP, vpa);
+            if (costoTotal < costoMinimo) {
+                costoMinimo = costoTotal;
+                System.arraycopy(CDconst, 0, mejorSolucion, 0, CDconst.length);
+                asignarClientes(CDconst, mejorAsignacion, D, vpa);
+            }
+            return;
+        }
+
+        // No construir el centro de distribución en el nivel actual
+        CDconst[nivel] = 0;
+        backtracking(nivel + 1, CDconst, mejorSolucion, mejorAsignacion, D, CFP, CDP, vpa, costoActual, costoMinimo);
+
+        // Construir el centro de distribución en el nivel actual
+        CDconst[nivel] = 1;
+        backtracking(nivel + 1, CDconst, mejorSolucion, mejorAsignacion, D, CFP, CDP, vpa, costoActual + CFP[nivel], costoMinimo);
+    }
+
+    public static int calcularCostoTotal(int[] CDconst, int[][] D, int[] CFP, int[] CDP, int[] vpa) {
+        int costoTotal = 0;
+        for (int i = 0; i < CDconst.length; i++) {
+            if (CDconst[i] == 1) {
+                costoTotal += CFP[i];
+            }
+        }
+        for (int i = 0; i < vpa.length; i++) {
+            int mejorCosto = Integer.MAX_VALUE;
+            for (int j = 0; j < CDconst.length; j++) {
+                if (CDconst[j] == 1) {
+                    int costo = D[j][i] * vpa[i] + CDP[j] * vpa[i];
+                    if (costo < mejorCosto) {
+                        mejorCosto = costo;
+                    }
+                }
+            }
+            costoTotal += mejorCosto;
+        }
+        return costoTotal;
+    }
+
+    public static void asignarClientes(int[] CDconst, int[] mejorAsignacion, int[][] D, int[] vpa) {
+        for (int i = 0; i < vpa.length; i++) {
+            int mejorCosto = Integer.MAX_VALUE;
+            int mejorCentro = -1;
+            for (int j = 0; j < CDconst.length; j++) {
+                if (CDconst[j] == 1) {
+                    int costo = D[j][i] * vpa[i];
+                    if (costo < mejorCosto) {
+                        mejorCosto = costo;
+                        mejorCentro = j;
+                    }
+                }
+            }
+            mejorAsignacion[i] = mejorCentro;
         }
     }
 }
