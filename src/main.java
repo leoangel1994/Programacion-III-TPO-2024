@@ -28,7 +28,7 @@ public class main {
         int[] CDP = new int[8];
         int[] CFP = new int[8];
         try {
-            BufferedReader reader = new BufferedReader(new FileReader("clientesycentros.txt"));
+            BufferedReader reader = new BufferedReader(new FileReader("clientesyCentros.txt"));
             String line = reader.readLine();
             if (line != null && line.contains("#")) {
                 line = line.substring(0, line.indexOf("#")).trim();
@@ -208,6 +208,15 @@ public class main {
         int[] estado = backtracking.backtracking(D, CFP);
         System.out.println("Estado de los centros: " + Arrays.toString(estado));
 
+        // Nombrar los centros que deben construirse
+        System.out.println("Centros que deben construirse:");
+        for (int i = 0; i < estado.length; i++) {
+            if (estado[i] == 1) {
+            System.out.println("Centro " + (50+i));
+            }
+        }
+        System.out.println();
+
         // Calcular el costo total
         int totalCost = 0;
         for (int cliente = 0; cliente < cl; cliente++) {
@@ -226,5 +235,17 @@ public class main {
         }
 
         System.out.println("Costo total: " + totalCost);
+        // Determinar y imprimir a qué centro de distribución cada cliente debe enviar su mercadería
+        for (int cliente = 0; cliente < cl; cliente++) {
+            int centroAsignado = -1;
+            int distanciaMinima = Integer.MAX_VALUE;
+            for (int centro = 0; centro < cd; centro++) {
+            if (estado[centro] == 1 && D[centro][cliente] < distanciaMinima) {
+                distanciaMinima = D[centro][cliente];
+                centroAsignado = centro;
+            }
+            }
+            System.out.printf("Cliente %d -> Centro %d%n", cliente, (centroAsignado+50));
+        }
     }
 }
