@@ -1,4 +1,4 @@
-package adt.structures;
+package adt.Structure;
 
 public class Nodo {
 	

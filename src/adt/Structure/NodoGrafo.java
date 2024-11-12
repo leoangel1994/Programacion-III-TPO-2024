@@ -1,4 +1,5 @@
-package adt.structures;
+package adt.Structure;
+
 
 public class NodoGrafo {
 	public int nodo;
