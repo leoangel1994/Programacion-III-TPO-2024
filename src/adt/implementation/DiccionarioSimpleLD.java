@@ -1,8 +1,8 @@
 package adt.implementation;
 
-import Estructuras.NodoClave;
-import Interfaces.ConjuntoTDA;
-import Interfaces.DiccionarioSimpleTDA;
+import adt.structures.NodoClave;
+import adt.interfaces.ConjuntoTDA;
+import adt.interfaces.DiccionarioSimpleTDA;
 
 public class DiccionarioSimpleLD implements DiccionarioSimpleTDA {
 

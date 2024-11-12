@@ -1,7 +1,7 @@
 package adt.implementation;
 
-import Estructuras.Nodo;
-import Interfaces.ColaTDA;
+import adt.structures.Nodo;
+import adt.interfaces.ColaTDA;
 
 public class ColaLD implements ColaTDA{
 	

@@ -1,6 +1,6 @@
 package adt.implementation;
 
-import Interfaces.PilaTDA;
+import adt.interfaces.PilaTDA;
 
 public class PilaArr implements PilaTDA{
 

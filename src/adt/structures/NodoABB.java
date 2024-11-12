@@ -1,6 +1,6 @@
 package adt.structures;
 
-import Interfaces.ABBTDA;
+import adt.interfaces.ABBTDA;
 
 public class NodoABB {
 

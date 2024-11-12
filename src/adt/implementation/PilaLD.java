@@ -1,7 +1,7 @@
 package adt.implementation;
 
-import Estructuras.Nodo;
-import Interfaces.PilaTDA;
+import adt.structures.Nodo;
+import adt.interfaces.PilaTDA;
 
 public class PilaLD implements PilaTDA{
 

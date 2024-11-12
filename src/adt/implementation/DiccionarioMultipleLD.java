@@ -1,9 +1,9 @@
 package adt.implementation;
 
-import Estructuras.Nodo;
-import Estructuras.NodoClaveMultiple;
-import Interfaces.ConjuntoTDA;
-import Interfaces.DiccionarioMultipleTDA;
+import adt.structures.Nodo;
+import adt.structures.NodoClaveMultiple;
+import adt.interfaces.ConjuntoTDA;
+import adt.interfaces.DiccionarioMultipleTDA;
 
 public class DiccionarioMultipleLD implements DiccionarioMultipleTDA{
 	

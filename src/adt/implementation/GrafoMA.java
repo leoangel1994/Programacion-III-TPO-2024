@@ -1,7 +1,7 @@
 package adt.implementation;
 
-import Interfaces.ConjuntoTDA;
-import Interfaces.GrafoTDA;
+import adt.interfaces.ConjuntoTDA;
+import adt.interfaces.GrafoTDA;
 
 public class GrafoMA implements GrafoTDA{
 	

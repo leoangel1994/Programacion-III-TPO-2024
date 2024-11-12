@@ -1,9 +1,9 @@
 package adt.implementation;
 
-import Estructuras.NodoArista;
-import Estructuras.NodoGrafo;
-import Interfaces.ConjuntoTDA;
-import Interfaces.GrafoTDA;
+import adt.structures.NodoArista;
+import adt.structures.NodoGrafo;
+import adt.interfaces.ConjuntoTDA;
+import adt.interfaces.GrafoTDA;
 
 public class GrafoLA implements GrafoTDA{
 

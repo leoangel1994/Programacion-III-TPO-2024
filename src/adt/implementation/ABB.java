@@ -1,7 +1,7 @@
 package adt.implementation;
 
-import Estructuras.NodoABB;
-import Interfaces.ABBTDA;
+import adt.structures.NodoABB;
+import adt.interfaces.ABBTDA;
 
 public class ABB implements ABBTDA{
 

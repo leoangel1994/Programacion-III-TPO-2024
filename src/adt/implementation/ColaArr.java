@@ -1,6 +1,6 @@
 package adt.implementation;
 
-import Interfaces.ColaTDA;
+import adt.interfaces.ColaTDA;
 
 public class ColaArr implements ColaTDA{
 

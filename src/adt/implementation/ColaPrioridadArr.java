@@ -1,7 +1,7 @@
 package adt.implementation;
 
-import Estructuras.Elemento;
-import Interfaces.ColaPrioridadTDA;
+import adt.structures.Elemento;
+import adt.interfaces.ColaPrioridadTDA;
 
 public class ColaPrioridadArr implements ColaPrioridadTDA{
 
