@@ -1,7 +1,7 @@
-package adt.implementation;
+package adt.Implementations;
 
-import adt.structures.Nodo;
-import adt.interfaces.ConjuntoTDA;
+import adt.Structure.Nodo;
+import adt.Interfaces.ConjuntoTDA;
 
 public class ConjuntoLD implements ConjuntoTDA{
 	

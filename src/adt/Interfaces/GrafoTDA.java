@@ -1,4 +1,4 @@
-package adt.interfaces;
+package adt.Interfaces;
 
 public interface GrafoTDA {
 	
